@@ -11,6 +11,8 @@ class SWindow;
 class SOverlay;
 class SViewport;
 
+class UMaterialInstanceDynamic;
+
 
 /**
  * 
@@ -46,4 +48,8 @@ protected:
 
 private:
 	bool bIsStandaloneGame = false;
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Dynamic material for brush ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+private:
+	UMaterialInstanceDynamic* DynamicMatInstance = nullptr;
 };

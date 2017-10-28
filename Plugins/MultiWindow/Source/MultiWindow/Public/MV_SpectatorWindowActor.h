@@ -62,6 +62,8 @@ private:
 
 	void UpdateTextureRegions(UTexture2D* Texture, int32 MipIndex, uint32 NumRegions, FUpdateTextureRegion2D* Regions, uint32 SrcPitch, uint32 SrcBpp, uint8* SrcData, bool bFreeData);
 
+	void CreateTexture(bool argForceMake);
+	void UpdateTexture();
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ UMG Widget ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 protected:
@@ -83,6 +85,8 @@ protected:
 
 	bool FindViewportGeometry(TSharedPtr<SWindow> WindowWidget, FGeometry& OutGeometry) const;
 	bool FindViewportGeometryInternal(const FGeometry& Geometry, TSharedPtr<SWidget> Widget, FGeometry& OutGeometry) const;
+
+	void OnSlateRendered(class SWindow& SlateWindow, void* ViewportRHIPtr);
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Miscellaneous ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 private:
