@@ -52,12 +52,25 @@ void AMV_SpectatorWindowActor::BeginPlay()
 
 	// Register slate rendered delegate
 	FSlateRenderer* SlateRenderer = FSlateApplication::Get().GetRenderer();//.Get();
+	SlateRenderer->OnSlateWindowRendered().RemoveAll(this);
 	SlateRenderer->OnSlateWindowRendered().AddUObject(this, &AMV_SpectatorWindowActor::OnSlateRendered);
 }
 
 void AMV_SpectatorWindowActor::BeginDestroy()
 {
 	Super::BeginDestroy();
+}
+
+void AMV_SpectatorWindowActor::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	if (FSlateApplication::IsInitialized())	// During shutdown, Slate may have already been destroyed by the time our viewport gets cleaned up
+	{
+		UE_LOG(LogTemp, Warning, TEXT("EndPlay SlateRenderer"));
+		FSlateRenderer* SlateRenderer = FSlateApplication::Get().GetRenderer();
+		SlateRenderer->OnSlateWindowRendered().RemoveAll(this);
+
+		FlushRenderingCommands();
+	}
 
 	// Stop copy to texture
 	bIsBufferReady = false;
@@ -67,10 +80,7 @@ void AMV_SpectatorWindowActor::BeginDestroy()
 	{
 		MV_UserWidget->DestroySpectatorWindow();
 	}
-}
 
-void AMV_SpectatorWindowActor::EndPlay(const EEndPlayReason::Type EndPlayReason)
-{
 	Super::EndPlay(EndPlayReason);
 }
 
@@ -226,6 +236,11 @@ bool AMV_SpectatorWindowActor::FindViewportGeometryInternal(const FGeometry & Ge
 
 void AMV_SpectatorWindowActor::OnSlateRendered(SWindow & SlateWindow, void * ViewportRHIPtr)
 {
+	if (GEngine == nullptr || GEngine->GameViewport == nullptr || GWorld == nullptr)
+	{
+		return;
+	}
+
 	if (!SlateWindow.IsFocusedInitially())
 	{
 		return;
@@ -234,9 +249,8 @@ void AMV_SpectatorWindowActor::OnSlateRendered(SWindow & SlateWindow, void * Vie
 	const FViewportRHIRef* ViewportRHI = (const FViewportRHIRef*)ViewportRHIPtr;
 	static const FName RendererModuleName("Renderer");
 	IRendererModule& RendererModule = FModuleManager::GetModuleChecked<IRendererModule>(RendererModuleName);
-	UGameViewportClient* GameViewportClient = GEngine->GameViewport;
-	check(GameViewportClient != nullptr);
 
+	UGameViewportClient* GameViewportClient = GEngine->GameViewport;
 	FVector2D WindowSize = GameViewportClient->GetWindow()->GetSizeInScreen();
 	FVector2D UV = ViewportPositionGeometry / WindowSize;
 	FVector2D UVSize = ViewportSizeGeometry / WindowSize;

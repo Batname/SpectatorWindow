@@ -76,8 +76,6 @@ protected:
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Copy from frame buffer  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 protected:
-	void* ReadbackBuffer;
-
 	bool bIsBufferReady = false;
 
 	FVector2D ViewportPositionGeometry = FVector2D::ZeroVector;
