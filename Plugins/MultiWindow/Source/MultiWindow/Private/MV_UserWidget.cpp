@@ -12,6 +12,9 @@
 UMV_UserWidget::UMV_UserWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
+
+	// Set Default Window mode
+	WindowMode = EWindowMode::Windowed;
 }
 
 

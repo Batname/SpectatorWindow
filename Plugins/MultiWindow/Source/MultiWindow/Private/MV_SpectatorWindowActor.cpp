@@ -325,14 +325,6 @@ void AMV_SpectatorWindowActor::OnSlateRendered(SWindow & SlateWindow, void * Vie
 			FReadSurfaceDataFlags()
 		);
 
-		// BGRA to RGBA
-		for (int32 Index = 0; Index < OutData.Num(); Index++)
-		{
-			auto Tmp = OutData[Index].B;
-			OutData[Index].B = OutData[Index].R;
-			OutData[Index].R = Tmp;
-		}
-
 		FMemory::Memcpy(DynamicTextureBuffer, OutData.GetData(), DynamicTextureBufferSize);
 		bIsBufferReady = true;
 	});

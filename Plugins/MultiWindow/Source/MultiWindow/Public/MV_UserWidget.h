@@ -36,10 +36,10 @@ public:
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MV")
-	int32 WindowSizeX = 800;
+	int32 WindowSizeX = 1280;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MV")
-	int32 WindowSizeY = 600;
+	int32 WindowSizeY = 720;
 
 
 	UPROPERTY(BlueprintReadWrite, Category = "MV")
