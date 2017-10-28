@@ -9,14 +9,22 @@
 #include "Runtime/Slate/Public/Framework/Application/SlateApplication.h"
 #include "Runtime/Slate/Public/Widgets/Layout/SConstraintCanvas.h"
 
+UMV_UserWidget::UMV_UserWidget(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
+{
+}
+
 
 void UMV_UserWidget::SetIsStandaloneGame(bool IsStandalone)
 {
 	bIsStandaloneGame = IsStandalone;
 }
 
-void UMV_UserWidget::CreateSpectatorWindow()
+void UMV_UserWidget::CreateSpectatorWindow(UTexture2D* DynamicTex)
 {
+	// Set Dynamic Texture
+	DynamicTexture = DynamicTex;
+
 	// Create and add window
 	SpectatorWindow = SNew(SWindow)
 		.ScreenPosition(FVector2D(100, 100))
@@ -73,4 +81,14 @@ void UMV_UserWidget::DestroySpectatorWindow()
 			SpectatorWindow->DestroyWindowImmediately();
 		}
 	}
+}
+
+void UMV_UserWidget::NativeConstruct()
+{
+	Super::NativeConstruct();
+}
+
+void UMV_UserWidget::NativeTick(const FGeometry & MyGeometry, float InDeltaTime)
+{
+	Super::NativeTick(MyGeometry, InDeltaTime);
 }

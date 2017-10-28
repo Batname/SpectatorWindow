@@ -34,7 +34,6 @@ AMV_SpectatorWindowActor::AMV_SpectatorWindowActor()
 void AMV_SpectatorWindowActor::BeginPlay()
 {
 	Super::BeginPlay();
-	UE_LOG(LogTemp, Warning, TEXT("AMV_SpectatorWindowActor::BeginPlay"));
 
 	// Create UMG widget
 	if (MV_UserWidgetBP != nullptr)
@@ -48,7 +47,7 @@ void AMV_SpectatorWindowActor::BeginPlay()
 	// Create Window, only if widget exists
 	if (MV_UserWidget != nullptr)
 	{
-		MV_UserWidget->CreateSpectatorWindow();
+		MV_UserWidget->CreateSpectatorWindow(DynamicTexture);
 	}
 
 	// Register slate rendered delegate
@@ -73,7 +72,6 @@ void AMV_SpectatorWindowActor::BeginDestroy()
 void AMV_SpectatorWindowActor::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
-	UE_LOG(LogTemp, Warning, TEXT("AMV_SpectatorWindowActor::EndPlay"));
 }
 
 // Called every frame
@@ -97,15 +95,12 @@ void AMV_SpectatorWindowActor::Tick(float DeltaTime)
 	// Update texture
 	if (bIsBufferReady && DynamicTexture != nullptr)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("bIsBufferReady && DynamicTexture != nullptr"));
 		UpdateTexture();
 	}
 }
 
 void AMV_SpectatorWindowActor::UpdateTextureRegions(UTexture2D * Texture, int32 MipIndex, uint32 NumRegions, FUpdateTextureRegion2D * Regions, uint32 SrcPitch, uint32 SrcBpp, uint8 * SrcData, bool bFreeData)
 {
-	UE_LOG(LogTemp, Warning, TEXT("---------- UpdateTextureRegions ----------"));
-
 	if (Texture && Texture->Resource)
 	{
 		struct FUpdateTextureRegionsData
@@ -163,8 +158,6 @@ void AMV_SpectatorWindowActor::UpdateTextureRegions(UTexture2D * Texture, int32 
 
 void AMV_SpectatorWindowActor::CreateTexture(bool argForceMake)
 {
-	UE_LOG(LogTemp, Warning, TEXT("---------- Creating Texture! ----------"));
-
 	if (DynamicTexture == nullptr || argForceMake == true)
 	{
 		// create buffers to collate pixel data into
@@ -233,7 +226,6 @@ bool AMV_SpectatorWindowActor::FindViewportGeometryInternal(const FGeometry & Ge
 
 void AMV_SpectatorWindowActor::OnSlateRendered(SWindow & SlateWindow, void * ViewportRHIPtr)
 {
-	UE_LOG(LogTemp, Warning, TEXT("AMV_SpectatorWindowActor::OnSlateRendered, %d"), SlateWindow.IsFocusedInitially());
 	if (!SlateWindow.IsFocusedInitially())
 	{
 		return;
@@ -333,11 +325,6 @@ void AMV_SpectatorWindowActor::OnSlateRendered(SWindow & SlateWindow, void * Vie
 			FReadSurfaceDataFlags()
 		);
 
-		UE_LOG(LogTemp, Warning, TEXT("in render callback OutData.Num() 0 %s"), *OutData[0].ToString());
-		UE_LOG(LogTemp, Warning, TEXT("in render callback OutData.Num() 100 %s"), *OutData[100].ToString());
-		UE_LOG(LogTemp, Warning, TEXT("in render callback OutData.Num() 10000 %s"), *OutData[10000].ToString());
-
-
 		// BGRA to RGBA
 		for (int32 Index = 0; Index < OutData.Num(); Index++)
 		{
@@ -355,8 +342,6 @@ void AMV_SpectatorWindowActor::OnConstruction(const FTransform & Transform)
 {
 	Super::OnConstruction(Transform);
 
-	UE_LOG(LogTemp, Warning, TEXT("---------- OnConstruction ----------"));
-
 	CreateTexture(true); // do force new texture
 	UpdateTexture();
 }
@@ -364,8 +349,6 @@ void AMV_SpectatorWindowActor::OnConstruction(const FTransform & Transform)
 void AMV_SpectatorWindowActor::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
-
-	UE_LOG(LogTemp, Warning, TEXT("---------- PostInitializeComponents ----------"));
 
 	CreateTexture(true); // do force new texture
 	UpdateTexture();

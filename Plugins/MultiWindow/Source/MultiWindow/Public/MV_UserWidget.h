@@ -24,9 +24,15 @@ class MULTIWINDOW_API UMV_UserWidget : public UUserWidget
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Window settings ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 public:
-	void CreateSpectatorWindow();
+	UMV_UserWidget(const FObjectInitializer& ObjectInitializer);
+
+	void CreateSpectatorWindow(UTexture2D* DynamicTex);
 
 	void DestroySpectatorWindow();
+
+	virtual void  NativeConstruct() override;
+
+	virtual void NativeTick(const FGeometry & MyGeometry, float InDeltaTime) override;
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MV")
@@ -34,6 +40,10 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MV")
 	int32 WindowSizeY = 600;
+
+
+	UPROPERTY(BlueprintReadWrite, Category = "MV")
+	UTexture2D* DynamicTexture = nullptr;
 
 	EWindowMode::Type WindowMode;
 
@@ -48,8 +58,4 @@ protected:
 
 private:
 	bool bIsStandaloneGame = false;
-
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Dynamic material for brush ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-private:
-	UMaterialInstanceDynamic* DynamicMatInstance = nullptr;
 };
