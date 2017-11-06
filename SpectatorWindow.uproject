@@ -12,8 +12,17 @@
 	],
 	"Plugins": [
 		{
-			"Name": "SimpleHMD",
-			"Enabled": true
+			"Name": "RemoteControl",
+			"Enabled": false,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/7b17de89308242e7bb95399fcbc6df3b"
+		},
+		{
+			"Name": "OculusVR",
+			"Enabled": false
+		},
+		{
+			"Name": "SteamVR",
+			"Enabled": false
 		}
 	]
 }

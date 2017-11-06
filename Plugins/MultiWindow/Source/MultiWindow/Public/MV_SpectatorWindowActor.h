@@ -43,10 +43,10 @@ public:
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Dynamic texture ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MV")
-	int32 DynamicTextureWidth = 1280;
+	int32 DynamicTextureWidth = 2560;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MV")
-	int32 DynamicTextureHeight = 720;
+	int32 DynamicTextureHeight = 1440;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MV")
 	int32 DynamicTextureBytesPerPixel = 4;

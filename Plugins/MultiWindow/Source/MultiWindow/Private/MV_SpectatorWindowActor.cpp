@@ -176,10 +176,9 @@ void AMV_SpectatorWindowActor::CreateTexture(bool argForceMake)
 		DynamicTextureBuffer = new uint8[DynamicTextureBufferSize];
 
 		// create dynamic texture
-		DynamicTexture = UTexture2D::CreateTransient(DynamicTextureWidth, DynamicTextureHeight);
+		DynamicTexture = UTexture2D::CreateTransient(DynamicTextureWidth, DynamicTextureHeight, EPixelFormat::PF_R8G8B8A8);
 		DynamicTexture->MipGenSettings = TextureMipGenSettings::TMGS_NoMipmaps;
-		DynamicTexture->CompressionSettings = TextureCompressionSettings::TC_VectorDisplacementmap;
-		DynamicTexture->SRGB = 0;
+		DynamicTexture->CompressionSettings = TextureCompressionSettings::TC_Default;
 		DynamicTexture->AddToRoot();		// Guarantee no garbage collection by adding it as a root reference
 		DynamicTexture->UpdateResource();	// Update the texture with new variable values.
 
@@ -315,8 +314,7 @@ void AMV_SpectatorWindowActor::OnSlateRendered(SWindow & SlateWindow, void * Vie
 		//SetGraphicsPipelineState(RHICmdList, GraphicsPSOInit);
 		RHICmdList.SetGraphicsPipelineState(GetAndOrCreateGraphicsPipelineState(RHICmdList, GraphicsPSOInit, EApplyRendertargetOption::CheckApply));
 
-		// Drawing 1:1, so no filtering needed
-		PixelShader->SetParameters(RHICmdList, TStaticSamplerState<SF_Point>::GetRHI(), ViewportBackBuffer);
+		PixelShader->SetParameters(RHICmdList, TStaticSamplerState<SF_Bilinear>::GetRHI(), ViewportBackBuffer);
 
 		Context.RendererModule->DrawRectangle(
 			RHICmdList,
@@ -338,6 +336,14 @@ void AMV_SpectatorWindowActor::OnSlateRendered(SWindow & SlateWindow, void * Vie
 			OutData,
 			FReadSurfaceDataFlags()
 		);
+
+		// BGRA to RGBA
+		for (int32 Index = 0; Index < OutData.Num(); Index++)
+		{
+			auto Tmp = OutData[Index].B;
+			OutData[Index].B = OutData[Index].R;
+			OutData[Index].R = Tmp;
+		}
 
 		FMemory::Memcpy(DynamicTextureBuffer, OutData.GetData(), DynamicTextureBufferSize);
 		bIsBufferReady = true;
