@@ -14,7 +14,7 @@ class MULTIWINDOW_API UMV_GameViewportClient : public UGameViewportClient
 {
 	GENERATED_BODY()
 	
-	
-	
+	virtual void Draw(FViewport* Viewport, FCanvas* SceneCanvas) override;
+	virtual void ProcessScreenShots(FViewport* Viewport) override;
 	
 };
