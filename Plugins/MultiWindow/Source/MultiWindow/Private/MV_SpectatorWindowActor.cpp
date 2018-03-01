@@ -311,8 +311,8 @@ void AMV_SpectatorWindowActor::OnSlateRendered(SWindow & SlateWindow, void * Vie
 		GraphicsPSOInit.BoundShaderState.PixelShaderRHI = GETSAFERHISHADER_PIXEL(*PixelShader);
 		GraphicsPSOInit.PrimitiveType = PT_TriangleList;
 
-		//SetGraphicsPipelineState(RHICmdList, GraphicsPSOInit);
-		RHICmdList.SetGraphicsPipelineState(GetAndOrCreateGraphicsPipelineState(RHICmdList, GraphicsPSOInit, EApplyRendertargetOption::CheckApply));
+		SetGraphicsPipelineState(RHICmdList, GraphicsPSOInit);
+		//RHICmdList.SetGraphicsPipelineState(GetAndOrCreateGraphicsPipelineState(RHICmdList, GraphicsPSOInit, EApplyRendertargetOption::CheckApply));
 
 		PixelShader->SetParameters(RHICmdList, TStaticSamplerState<SF_Bilinear>::GetRHI(), ViewportBackBuffer);
 

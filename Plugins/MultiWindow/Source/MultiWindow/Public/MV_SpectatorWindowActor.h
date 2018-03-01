@@ -4,6 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Runtime/RHI/Public/RHI.h"
+#include "Runtime/SlateCore/Public/Widgets/SWindow.h"
+#include "Runtime/Engine/Classes/Engine/Texture2D.h"
 #include "MV_SpectatorWindowActor.generated.h"
 
 class UTexture2D;
