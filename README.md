@@ -1,5 +1,8 @@
 ## Unreal Engine 4 Multi Window System Plugin
 
+### New version of tutorial
+[UE4MultiWindow](https://github.com/Batname/UE4MultiWindow)
+
 ### For now this is basic untested implementation
 Main idea is reading frame from frame buffer and save in Dynamic texture
 
